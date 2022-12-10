@@ -5,7 +5,7 @@ import { fade } from "svelte/transition";
 
 <div
   out:fade
-  class="flex fixed w-screen h-80 flex-grow items-center  justify-center"
+  class="absolute flex w-screen h-80 flex-grow items-center  justify-center"
 >
   <SyncLoader color="green" />
 </div>

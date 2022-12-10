@@ -1,6 +1,6 @@
 <script lang="ts">
 import { P, Card, A, Hr } from "flowbite-svelte";
-import { blur, slide } from "svelte/transition";
+import { blur, fade, slide } from "svelte/transition";
 // Icons loading
 import Icon from "@iconify/svelte";
 import counterIcon from "@iconify/icons-mdi/counter";
@@ -44,11 +44,14 @@ let pages = [
     {/each}
   </div>
 
+  <!-- some info -->
   <div class="mt-8 text-right">
     <P class="opacity-50">
       Currently the Multi-Counter app is being developed. Timer app is just a
       placeholder.
     </P>
+
+    <!-- footnote -->
     <Hr class="bg-gray-300" />
     <A href="#/Designer">Green Room... for designing elements...</A><br />
     <A href="#/Designer1">Error Link</A>

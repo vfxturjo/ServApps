@@ -21,11 +21,7 @@ let loading_page = false;
 
   <!-- PAGE LOADING ANIMATION -->
   {#if loading_page}
-    <div
-      class="absolute min-h-[80%] min-w-full flex justify-center items-center z-10"
-    >
-      <LoadingAnim />
-    </div>
+    <LoadingAnim />
   {/if}
 
   <!-- PAGES -->
