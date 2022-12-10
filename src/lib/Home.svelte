@@ -1,6 +1,9 @@
 <script lang="ts">
 import { P, Card, A, Hr } from "flowbite-svelte";
 import { blur, slide } from "svelte/transition";
+// Icons loading
+import Icon from "@iconify/svelte";
+import counterIcon from "@iconify/icons-mdi/counter";
 
 let pages = [
   {
@@ -33,7 +36,8 @@ let pages = [
         href="{page.href}"
         class="basis-52 hover:drop-shadow-xl transition-all duration-500"
       >
-        <span class="app_icon_card {page.icon}"></span>
+        <!-- <span class="app_icon_card {page.icon}"></span> -->
+        <Icon icon="{counterIcon}" />
         <P align="center">{page.App_name}</P></Card
       >
     {/each}
