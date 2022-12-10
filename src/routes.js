@@ -1,6 +1,7 @@
 import { wrap } from "svelte-spa-router/wrap";
 
 import Home from "./lib/Home.svelte";
+import LoadingAnim from "./lib/loadingAnim.svelte";
 // import E404 from "./lib/E404.svelte";
 // import DesignerGreenRoom from "./lib/debugging/DesignerGreenRoom.svelte";
 // import CounterApp from "./lib/CounterApp/CounterApp.svelte";
