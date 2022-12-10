@@ -4,16 +4,17 @@ import { blur, slide } from "svelte/transition";
 // Icons loading
 import Icon from "@iconify/svelte";
 import counterIcon from "@iconify/icons-mdi/counter";
+import timerOutline from "@iconify/icons-material-symbols/timer-outline";
 
 let pages = [
   {
     App_name: "Multi-Counter App",
-    icon: "fas fa-plus-minus",
+    icon: counterIcon,
     href: "#/CounterApp",
   },
   {
     App_name: "Timer App",
-    icon: "fas fa-stopwatch-20",
+    icon: timerOutline,
     href: "#/TimerApp",
   },
 ];
@@ -37,7 +38,7 @@ let pages = [
         class="basis-52 hover:drop-shadow-xl transition-all duration-500"
       >
         <!-- <span class="app_icon_card {page.icon}"></span> -->
-        <Icon icon="{counterIcon}" />
+        <Icon icon="{page.icon}" class="app_icon_card" />
         <P align="center">{page.App_name}</P></Card
       >
     {/each}
