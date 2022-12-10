@@ -30,3 +30,16 @@ export function get_local_data_bool(data_name) {
 export function set_local(data_name, value) {
   localStorage.setItem(data_name, value);
 }
+
+export function onFormSubmit(e, interested_keys) {
+  const formData = new FormData(e.target);
+
+  let data = {};
+  for (let field of formData) {
+    const [key, value] = field;
+    if (interested_keys.includes(key)) {
+      data[key] = value;
+    }
+  }
+  return data;
+}

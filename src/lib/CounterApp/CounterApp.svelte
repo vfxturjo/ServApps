@@ -1,6 +1,10 @@
 <script lang="ts">
 //#region imports
-import { counters_saved, Counter_size_editing } from "./CounterLocalData";
+import {
+  counters_saved,
+  Counter_size_editing,
+  rename_mode,
+} from "./CounterLocalData";
 import { ButtonGroup, Button, Card, P, Range } from "flowbite-svelte";
 import { get } from "svelte/store";
 import { array_removeItem } from "../my_funcs";
@@ -63,6 +67,19 @@ function handle_delete(id: number) {
   counters_data = counters_data;
 }
 
+function handle_update(id, data) {
+  let replace_with = {
+    id: id,
+    name: data.detail.name,
+    count: data.detail.count,
+  };
+
+  const i = counters_data.findIndex((data) => data.id === id);
+  counters_data[i] = { ...counters_data[i], ...replace_with };
+
+  counters_data = counters_data;
+}
+
 function handle_save() {
   save_data(counters_data);
   // anything_changed = false;
@@ -109,6 +126,7 @@ function handle_save() {
         on:delete="{() => {
           handle_delete(item.id);
         }}"
+        on:update="{(data) => handle_update(item.id, data)}"
         on:up="{() => (item.count += 1)}"
         on:down="{() => (item.count -= 1)}"
         on:reset_this_counter="{() => (item.count = 0)}"
