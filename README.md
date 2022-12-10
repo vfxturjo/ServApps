@@ -7,9 +7,9 @@ Thanks for visiting!
 Todo:
 
 - [x] Rename counters mode
-  - [] functionality to add icons/pics?
+  - [ ] functionality to add icons/pics?
 - [x] change counter cards size, row & column
 
 fix:
 
-- [] font-awesome icon loads very slow
+- [ ] font-awesome icon loads very slow
