@@ -110,7 +110,7 @@ function handle_save() {
 
 <div
   class="flex-row p-4 pt-2 inline-flex flex-wrap gap-3 justify-evenly"
-  transition:fade
+  out:slide="{{ duration: 0 }}"
   on:introend="{() => {
     anim_long = false;
   }}"

@@ -38,6 +38,7 @@ export let noOfCounters: number;
 </script>
 
 <div
+  transition:slide
   class="p-4 bg-gray-200 dark:bg-gray-900 h-fit w-full sticky top-0 z-10 shadow"
 >
   <div class="flex justify-between">
