@@ -6,12 +6,20 @@ import { writable } from "svelte-local-storage-store";
 export let Current_app = writable("Current_app", "MultiCounter");
 
 // ? Related with Multi-Counter
-export let counters_saved = writable("counters_saved", { id: 0, count: 0 });
+export let counters_saved = writable("counters_saved", {
+  id: 0,
+  count: 0,
+  name: "Counter Name",
+});
 export let smart_mode = writable("counter_smart_mode", true);
-export let minus_mode = writable("counter_minus_mode", false);
-export let large_counter = writable("counter_large_counter", true);
+export let smart_text = writable("counter_smart_text", true);
+export let minus_mode = writable("counter_minus_mode", true);
+
 export let delete_mode = writable("counter_delete_mode", false);
 export let rename_mode = writable("counter_rename_mode", false);
+export let counter_id_shown = writable("counter_counter_id_shown", false);
+export let Counter_size_editing = writable("counter_size_editing", false);
+export let Counter_size = writable("counter_size", { x: 300, y: 90 });
 
 // ? Others
 export function createCount_stored(id: number) {

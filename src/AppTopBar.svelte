@@ -1,4 +1,5 @@
 <script>
+// #region IMPORTS
 import {
   Navbar,
   NavBrand,
@@ -15,11 +16,27 @@ import {
 import { slide } from "svelte/transition";
 import { Current_app } from "./lib/CounterApp/CounterLocalData";
 
+// #endregion
+
+// main script
 const toggleTheme = () => {
   const isDark = window.document.documentElement.classList.toggle("dark");
   localStorage.setItem("color-theme", isDark ? "dark" : "light");
 };
 </script>
+
+<!-- LOAD THE THEME COLOR -->
+<svelte:head>
+  <script>
+  if (window) {
+    localStorage.getItem("color-theme") === "dark" ||
+    (!("color-theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ? window.document.documentElement.classList.add("dark")
+      : window.document.documentElement.classList.remove("dark");
+  }
+  </script>
+</svelte:head>
 
 <Navbar let:hidden let:toggle>
   <NavBrand href="/">
@@ -37,6 +54,6 @@ const toggleTheme = () => {
     <NavLi href="/" active="{$Current_app == 'MultiCounter'}"
       >Multi-Counter</NavLi
     >
-    <NavLi href="/about">Created By: vfxTurjo</NavLi>
+    <NavLi href="/">Created By: vfxTurjo</NavLi>
   </NavUl>
 </Navbar>

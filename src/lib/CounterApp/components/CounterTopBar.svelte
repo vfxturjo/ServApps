@@ -11,18 +11,23 @@ import {
   DropdownDivider,
   Checkbox,
   Toggle,
-  Iconinput,
 } from "flowbite-svelte";
 import { createEventDispatcher, onMount } from "svelte";
 import { fade, slide } from "svelte/transition";
 import { get_local_data, get_local_data_bool, set_local } from "../../my_funcs";
+import Icon from "@iconify/svelte";
+import contentSave from "@iconify/icons-mdi/content-save";
+import roundFileDownloadDone from "@iconify/icons-ic/round-file-download-done";
+import doneRounded from "@iconify/icons-material-symbols/done-rounded";
 
 import {
   minus_mode,
-  large_counter,
   delete_mode,
   smart_mode,
   rename_mode,
+  counter_id_shown,
+  Counter_size_editing,
+  smart_text,
 } from "../CounterLocalData";
 
 export let anything_changed = false;
@@ -67,11 +72,29 @@ export let noOfCounters: number;
           </Toggle>
         </DropdownItem>
         <DropdownItem>
-          <Toggle size="small" bind:checked="{$minus_mode}">Minus mode</Toggle>
+          <Toggle size="small" bind:checked="{$smart_text}" class="inline"
+            >Smart text
+          </Toggle>
         </DropdownItem>
         <DropdownItem>
-          <Toggle size="small" bind:checked="{$large_counter}" class="inline"
-            >Large Counter
+          <Toggle size="small" bind:checked="{$minus_mode}">Minus mode</Toggle>
+        </DropdownItem>
+
+        <DropdownItem>
+          <Toggle
+            size="small"
+            bind:checked="{$Counter_size_editing}"
+            class="inline"
+            >Edit Counters size
+          </Toggle>
+        </DropdownItem>
+        <DropdownItem>
+          <Toggle
+            size="small"
+            bind:checked="{$counter_id_shown}"
+            class="inline"
+          >
+            Show counter id
           </Toggle>
         </DropdownItem>
         <DropdownDivider />
@@ -88,18 +111,23 @@ export let noOfCounters: number;
       </Dropdown>
       {#if $delete_mode}
         <Button on:click="{() => ($delete_mode = false)}">
-          <icon class="fas fa-ban"></icon>
+          <Icon icon="{roundFileDownloadDone}" class="text-lg" />
+        </Button>
+      {:else if $Counter_size_editing}
+        <Button on:click="{() => ($Counter_size_editing = false)}">
+          <Icon icon="{roundFileDownloadDone}" class="text-lg" />
         </Button>
       {:else}
         <div class="relative">
           <Button
-            class="min-h-full"
+            class="min-h-full overflow-visible"
             on:click="{() => {
               dispatch('save_data');
             }}"
-            ><span class="fas fa-download"></span>
+          >
+            <Icon icon="{contentSave}" class="text-lg" />
             {#if !anything_changed}
-              <p class="fas fa-check absolute top-1 right-1 "></p>
+              <Icon icon="{doneRounded}" class=" absolute top-1 right-1 " />
             {/if}
           </Button>
         </div>

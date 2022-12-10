@@ -1,6 +1,6 @@
 <script lang="ts">
 //#region imports
-import { counters_saved } from "./CounterLocalData";
+import { counters_saved, Counter_size_editing } from "./CounterLocalData";
 import { ButtonGroup, Button, Card, P, Range } from "flowbite-svelte";
 import { get } from "svelte/store";
 import { array_removeItem } from "../my_funcs";
@@ -10,6 +10,7 @@ import { fade, fly, slide } from "svelte/transition";
 import CounterTopBar from "./components/CounterTopBar.svelte";
 import { onMount } from "svelte";
 import FloatingVarsViewer from "../debugging/Floating_vars_viewer.svelte";
+import CounterResize from "./components/Counter_resize.svelte";
 
 function save_data(data: any) {
   counters_saved.set(data);
@@ -19,7 +20,7 @@ function save_data(data: any) {
 $: counters_data, (anything_changed = true);
 
 //#region variables initialize
-var counters_data = [{ id: 1, count: 0 }];
+var counters_data = [{ id: 1, count: 0, name: "Counter Name" }];
 var counter_count = 1;
 var loading_state = true;
 var anim_long = true;
@@ -50,6 +51,7 @@ function create_counter() {
   counters_data.push({
     id: counter_count + 1,
     count: 0,
+    name: "Counter name",
   });
   counter_count += 1;
   counters_data = counters_data;
@@ -69,46 +71,48 @@ function handle_save() {
 </script>
 
 <!-- ! FULL WRAPPER -->
-<div>
-  <!-- ? Manager -->
-  <CounterTopBar
-    noOfCounters="{noOfCounters}"
-    on:create_counter="{() => create_counter()}"
-    on:save_data="{() => handle_save()}"
-    on:reset="{() => (counters_data = [{ id: 1, count: 0 }])}"
-    anything_changed="{anything_changed}"
-  />
+<!-- ? Manager -->
+<CounterTopBar
+  noOfCounters="{noOfCounters}"
+  on:create_counter="{() => create_counter()}"
+  on:save_data="{() => handle_save()}"
+  on:reset="{() =>
+    (counters_data = [{ id: 1, count: 0, name: 'Counter Name' }])}"
+  anything_changed="{anything_changed}"
+/>
 
-  <!-- ? COUNTER CARDS -->
-
-  <div class="flex flex-col pt-2">
-    <div
-      transition:fade
-      on:introend="{() => {
-        anim_long = false;
-      }}"
-      on:outroend="{() => {
-        anim_long = true;
-      }}"
-    >
-      {#each counters_data as item, i (item.id)}
-        <div
-          class="w-full "
-          in:slide="{{ delay: anim_long ? i * 100 : 0 }}"
-          out:slide|local
-        >
-          <CounterCard
-            item="{item}"
-            i="{i}"
-            on:delete="{() => {
-              handle_delete(item.id);
-            }}"
-            on:up="{() => (item.count += 1)}"
-            on:down="{() => (item.count -= 1)}"
-            on:reset_this_counter="{() => (item.count = 0)}"
-          />
-        </div>
-      {/each}
-    </div>
+<!-- ? Edit counter size -->
+{#if $Counter_size_editing}
+  <div transition:slide>
+    <CounterResize />
   </div>
+{/if}
+<!-- Counter_size_editing -->
+
+<!-- ? COUNTER CARDS -->
+
+<div
+  class="flex-row p-4 pt-2 inline-flex flex-wrap gap-3 justify-evenly"
+  transition:fade
+  on:introend="{() => {
+    anim_long = false;
+  }}"
+  on:outroend="{() => {
+    anim_long = true;
+  }}"
+>
+  {#each counters_data as item, i (item.id)}
+    <div in:slide="{{ delay: anim_long ? i * 100 : 0 }}" out:slide|local>
+      <CounterCard
+        item="{item}"
+        i="{i}"
+        on:delete="{() => {
+          handle_delete(item.id);
+        }}"
+        on:up="{() => (item.count += 1)}"
+        on:down="{() => (item.count -= 1)}"
+        on:reset_this_counter="{() => (item.count = 0)}"
+      />
+    </div>
+  {/each}
 </div>
