@@ -82,42 +82,33 @@ function handle_save() {
   <!-- ? COUNTER CARDS -->
 
   <div class="flex flex-col pt-2">
-    {#if loading_state}
-      <div
-        out:fade
-        class="flex fixed w-screen h-80 flex-grow items-center  justify-center"
-      >
-        <SyncLoader color="green" />
-      </div>
-    {:else}
-      <div
-        transition:fade
-        on:introend="{() => {
-          anim_long = false;
-        }}"
-        on:outroend="{() => {
-          anim_long = true;
-        }}"
-      >
-        {#each counters_data as item, i (item.id)}
-          <div
-            class="w-full "
-            in:slide="{{ delay: anim_long ? i * 100 : 0 }}"
-            out:slide|local
-          >
-            <CounterCard
-              item="{item}"
-              i="{i}"
-              on:delete="{() => {
-                handle_delete(item.id);
-              }}"
-              on:up="{() => (item.count += 1)}"
-              on:down="{() => (item.count -= 1)}"
-              on:reset_this_counter="{() => (item.count = 0)}"
-            />
-          </div>
-        {/each}
-      </div>
-    {/if}
+    <div
+      transition:fade
+      on:introend="{() => {
+        anim_long = false;
+      }}"
+      on:outroend="{() => {
+        anim_long = true;
+      }}"
+    >
+      {#each counters_data as item, i (item.id)}
+        <div
+          class="w-full "
+          in:slide="{{ delay: anim_long ? i * 100 : 0 }}"
+          out:slide|local
+        >
+          <CounterCard
+            item="{item}"
+            i="{i}"
+            on:delete="{() => {
+              handle_delete(item.id);
+            }}"
+            on:up="{() => (item.count += 1)}"
+            on:down="{() => (item.count -= 1)}"
+            on:reset_this_counter="{() => (item.count = 0)}"
+          />
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
