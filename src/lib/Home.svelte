@@ -45,6 +45,10 @@ let pages = [
   </div>
 
   <div class="mt-8 text-right">
+    <P class="opacity-50">
+      Currently the Multi-Counter app is being developed. Timer app is just a
+      placeholder.
+    </P>
     <Hr class="bg-gray-300" />
     <A href="#/Designer">Green Room... for designing elements...</A><br />
     <A href="#/Designer1">Error Link</A>

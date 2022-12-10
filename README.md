@@ -6,9 +6,9 @@ Thanks for visiting!
 
 Todo:
 
-- [] Rename counters mode
+- [x] Rename counters mode
   - [] functionality to add icons/pics?
-- [] change counter cards size, row & column
+- [x] change counter cards size, row & column
 
 fix:
 
