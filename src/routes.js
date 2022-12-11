@@ -9,7 +9,15 @@ import LoadingAnim from "./lib/loadingAnim.svelte";
 
 export const routes = {
   // Home page
-  "/": Home,
+  "/": wrap({
+    asyncComponent: () => import("./lib/Home.svelte"),
+  }),
+  "/ServApps": wrap({
+    asyncComponent: () => import("./lib/Home.svelte"),
+  }),
+  "/home": wrap({
+    asyncComponent: () => import("./lib/Home.svelte"),
+  }),
 
   // utility page
   "/Designer": wrap({

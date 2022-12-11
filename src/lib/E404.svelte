@@ -1,8 +1,9 @@
 <script lang="ts">
+import { P } from "flowbite-svelte";
 import { blur, slide } from "svelte/transition";
 </script>
 
-<section class="bg-gray-50 py-20 text-gray-500">
+<section class="bg-gray-50 dark:bg-gray-900 py-20 text-gray-500">
   <div class="container mx-auto px-4 relative">
     <div class="flex flex-wrap w-full justify-center">
       <div class=" w-[1/2] drop-shadow-2xl">
@@ -152,15 +153,15 @@ import { blur, slide } from "svelte/transition";
         </svg>
       </div>
       <div class="p-4 w-full lg:order-1 lg:w-5/12">
-        <h3 class="font-bold mb-2 text-4xl text-gray-800">
+        <P size="4xl" class="font-bold mb-2  text-gray-800">
           Oops! Error in routing
-        </h3>
-        <p class="mb-6"></p>
-        <p class="mb-6">
+        </P>
+        <div class="mb-6"></div>
+        <P class="mb-6">
           Router.js uses &quot;/Counter&quot; as links. but links for &lt;a&gt;
           tag/any thing that leads to the page should use &quot;#/Counter&quot;
           (notice the # at the start...)
-        </p>
+        </P>
       </div>
     </div>
   </div>

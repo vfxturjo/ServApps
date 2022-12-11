@@ -21,6 +21,8 @@ function save_data(data: any) {
   anything_changed = false;
 }
 //#endregion
+
+// @ts-ignore
 $: counters_data, (anything_changed = true);
 
 //#region variables initialize
@@ -34,13 +36,14 @@ $: {
   if (anything_changed == false) {
     break $;
   } else {
-    anything_changed =
+    anything_changed = // @ts-ignore
       Array.from(counters_saved) === Array.from(counters_data) ? false : true;
   }
 }
 
 onMount(() => {
   if (localStorage.getItem("counters_saved") !== null) {
+    // @ts-ignore
     counters_data = Array.from(get(counters_saved));
     counter_count = counters_data[counters_data.length - 1].id;
   }

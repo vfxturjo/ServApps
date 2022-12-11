@@ -80,7 +80,7 @@ function handleEdit(e) {
       <P weight="light" space="tight" align="left" size="xs">{i + 1}</P>
     </div>
   {/if}
-  <div class="pointer-events-none h-full " transition:fly="{{ x: 10 }}">
+  <div class="pointer-events-none h-full " transition:fly|local="{{ x: 10 }}">
     {#if $smart_text}
       {#key item.count}
         <span class="centerrr " in:fly|local="{{ y: -10 }}">
