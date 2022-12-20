@@ -12,6 +12,7 @@ export const routes = {
   "/": wrap({
     asyncComponent: () => import("./lib/Home.svelte"),
   }),
+
   "/ServApps": wrap({
     asyncComponent: () => import("./lib/Home.svelte"),
   }),

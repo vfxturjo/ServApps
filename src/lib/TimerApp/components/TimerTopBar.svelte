@@ -15,13 +15,15 @@ import {
 import { createEventDispatcher, onMount } from "svelte";
 import { fade, slide } from "svelte/transition";
 import { get_local_data, get_local_data_bool, set_local } from "../../my_funcs";
-import { minus_mode, delete_mode, smart_mode } from "../TimerLocalData";
+import Icon from "@iconify/svelte";
+import contentSave from "@iconify/icons-mdi/content-save";
+import roundFileDownloadDone from "@iconify/icons-ic/round-file-download-done";
+import doneRounded from "@iconify/icons-material-symbols/done-rounded";
 
-export let anything_changed = false;
-
+import {} from "../TimerLocalData";
 let dispatch = createEventDispatcher();
 
-export let noOfCounters: number;
+export let anything_changed = false;
 </script>
 
 <div
@@ -39,39 +41,15 @@ export let noOfCounters: number;
       <Dropdown
         transition="{slide}"
         triggeredBy=".options_dropdown"
-        class="w-fit"
+        class="w-fit noselect"
       >
-        <DropdownItem
-          class="w-full flex justify-between"
-          on:click="{() => {
-            dispatch('save_data');
-          }}"
-        >
-          <P>Save values</P>
-          <P class="inline-block">
-            {#if !anything_changed}
-              <span class="fas fa-check text-lg text-end"></span>
-            {/if}
-          </P>
-        </DropdownItem>
-        <DropdownDivider />
-
-        <DropdownItem>
-          <Toggle size="small" bind:checked="{$delete_mode}" class="inline"
+        <!-- <DropdownItem>
+          <Toggle size="small" bind:checked="{$delete_mode}"
             >Delete mode
           </Toggle>
-        </DropdownItem>
+        </DropdownItem> -->
         <DropdownDivider />
 
-        <DropdownItem>
-          <Toggle size="small" bind:checked="{$smart_mode}" class="inline"
-            >Smart mode
-          </Toggle>
-        </DropdownItem>
-        <DropdownItem>
-          <Toggle size="small" bind:checked="{$minus_mode}">Minus mode</Toggle>
-        </DropdownItem>
-        <DropdownDivider />
         <!-- option: Reset all  -->
         <DropdownItem
           on:click="{() => {
@@ -82,12 +60,34 @@ export let noOfCounters: number;
           Reset all
         </DropdownItem>
       </Dropdown>
+      <!-- {#if $delete_mode}
+        <Button on:click="{() => ($delete_mode = false)}">
+          <Icon icon="{roundFileDownloadDone}" class="text-lg" />
+        </Button>
+      {:else if $Counter_size_editing}
+        <Button on:click="{() => ($Counter_size_editing = false)}">
+          <Icon icon="{roundFileDownloadDone}" class="text-lg" />
+        </Button> -->
+      <!-- {:else} -->
+      <div class="relative">
+        <Button
+          class="min-h-full overflow-visible"
+          on:click="{() => {
+            dispatch('save_data');
+          }}"
+        >
+          <Icon icon="{contentSave}" class="text-lg" />
+          {#if !anything_changed}
+            <Icon icon="{doneRounded}" class=" absolute top-1 right-1 " />
+          {/if}
+        </Button>
+      </div>
+      <!-- {/if} -->
     </div>
 
     <div>
       <Button
         on:click="{() => {
-          noOfCounters += 1;
           dispatch('create_counter');
         }}">+1</Button
       >

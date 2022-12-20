@@ -1,66 +1,64 @@
 <script>
 //#region imports
-import { ButtonGroup, Button, Card, P, Range } from "flowbite-svelte";
+import {
+  ButtonGroup,
+  Button,
+  Card,
+  P,
+  Range,
+  Span,
+  Modal,
+  Label,
+  Input,
+  Checkbox,
+} from "flowbite-svelte";
 import { createEventDispatcher } from "svelte";
 import { fade, fly, slide } from "svelte/transition";
 let dispatch = createEventDispatcher();
 import { get_local_data_bool } from "../../my_funcs";
-import { delete_mode, smart_mode, minus_mode } from "../TimerLocalData";
+import { onFormSubmit } from "../../my_funcs";
+import {} from "../TimerLocalData";
 
 //#endregion
-export let item = { id: 0, count: 0 };
-export let i = 0;
+export let item = { id: 0, count: 0, name: "Counter Name" };
+
+let editing = false;
+// let formModal = false;
+
+function handleEdit(e) {
+  let data = onFormSubmit(e, ["name", "count"]);
+  console.log(data.count);
+  if (data.count === "") {
+    data.count = item.count;
+  }
+  dispatch("update", data);
+  editing = false;
+}
 </script>
 
-<div class="p-2 flex justify-center select-none">
-  <Card class="min-w-[300px] max-w-[90%] relative overflow-hidden">
-    <!-- Counter part: smart -->
-    {#if $smart_mode && !$delete_mode}
-      {#if $minus_mode}
-        <button
-          transition:fade
-          class="absolute left-0 top-0 w-[30%] h-[100%] bg-red-400 bg-opacity-30"
-          on:click="{() => dispatch('down')}"></button>
-      {/if}
-      <button
-        transition:fade
-        class="transition-all absolute right-0 top-0 h-[100%] bg-blue-400 bg-opacity-30
-        {$minus_mode ? 'w-[68%]' : 'w-[100%]'}"
-        on:click="{() => dispatch('up')}"></button>
-    {/if}
-    {#if $delete_mode}
-      <!-- content here -->
-      <button
-        class="absolute left-0 top-0 w-[30%] h-[100%] bg-red-400 bg-opacity-30"
-        on:click="{() => dispatch('delete', item.id)}"></button>
-    {/if}
-    <!-- Info part -->
-    <div class="relative pointer-events-none">
-      <P weight="light" space="tight" align="left" size="xs">Counter {i + 1}</P>
-    </div>
-    <div class="p-4 pointer-events-none" transition:fly="{{ x: 10 }}">
-      <P size="lg" align="center"
-        >Current value =
-        {#key item.count}
-          <span class="inline-block" in:fly|="{{ y: -10 }}">
-            {item.count}
-          </span>
-        {/key}
-      </P>
-    </div>
+<!-- Info part -->
+aaaaaaaaaaa
+<!--  -->
+<!--  -->
+<!--  -->
+<!--! RENAMING MODAL -->
+<Modal bind:open="{editing}" size="xs" class="h-min">
+  <form
+    class="flex flex-col space-y-6"
+    on:submit|preventDefault="{(e) => handleEdit(e)}"
+  >
+    <h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">
+      Rename Counter
+    </h3>
+    <Label class="space-y-2">
+      <span>Name</span>
+      <Input name="name" placeholder="{item.name}" />
+    </Label>
+    <Label class="space-y-2">
+      <span>Value</span>
+      <Input type="number" name="count" placeholder="{item.count}" />
+    </Label>
 
-    {#if !$smart_mode}
-      <!-- content here -->
-      <div class="flex flex-row-reverse justify-between">
-        {#if $minus_mode}
-          <Button size="sm" color="green" on:click="{() => dispatch('down')}"
-            >-1</Button
-          >
-        {/if}
-        <div>
-          <Button size="lg" on:click="{() => dispatch('up')}">+1</Button>
-        </div>
-      </div>
-    {/if}
-  </Card>
-</div>
+    <Button type="submit" class="w-full1">Set</Button>
+  </form>
+</Modal>

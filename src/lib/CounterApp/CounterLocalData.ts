@@ -19,7 +19,7 @@ export let delete_mode = writable("counter_delete_mode", false);
 export let rename_mode = writable("counter_rename_mode", false);
 export let counter_id_shown = writable("counter_counter_id_shown", false);
 export let Counter_size_editing = writable("counter_size_editing", false);
-export let Counter_size = writable("counter_size", { x: 300, y: 90 });
+export let Counter_size = writable("counter_size", { x: 300, y: 90, gap: 10 });
 
 // ? Others
 export function createCount_stored(id: number) {

@@ -1,55 +1,65 @@
 <script lang="ts">
 //#region imports
-import { Timers_saved } from "./TimerLocalData";
+// animations
+import { flip } from "svelte/animate";
+import { cubicOut } from "svelte/easing";
+const flip_duration = {};
+// flowbite
 import { ButtonGroup, Button, Card, P, Range } from "flowbite-svelte";
+// others
 import { get } from "svelte/store";
-import { array_removeItem } from "../my_funcs.js";
-import TimerCard from "./components/TimerCard.svelte";
-import { SyncLoader } from "svelte-loading-spinners";
-import { fade, fly, slide } from "svelte/transition";
+import { array_removeItem } from "../my_funcs";
 import { onMount } from "svelte";
-import FloatingVarsViewer from "../debugging/Floating_vars_viewer.svelte";
+// variables
+import { Timers_saved } from "./TimerLocalData";
 import TimerTopBar from "./components/TimerTopBar.svelte";
+import TimerCard from "./components/TimerCard.svelte";
+
+//#region variables initialize
+var timers_data = [{ id: 1, runtime: 0, stop_reason: "None" }];
+var Current_id = 1;
+var Timer_count = 0;
+
+//#endregion
 
 function save_data(data: any) {
   Timers_saved.set(data);
+  anything_changed = false;
 }
-//#endregion
 
-//#region variables initialize
-var timers_data = [{ id: 1, count: 0 }];
-var timer_count = 1;
-var loading_state = true;
-var anim_long = true;
-
+//#region Anything changed
+// @ts-ignore
+$: timers_data, (anything_changed = true);
 var anything_changed = true;
 $: {
   if (anything_changed == false) {
     break $;
   } else {
-    anything_changed =
-      Array.from(Timers_saved) === Array.from(timers_data) ? false : true;
+    anything_changed = // @ts-ignore
+      Array.from(counters_saved) === Array.from(timers_data) ? false : true;
   }
 }
+//#endregion
 
 onMount(() => {
   if (localStorage.getItem("Timers_saved") !== null) {
+    // @ts-ignore
     timers_data = Array.from(get(Timers_saved));
-    timer_count = timers_data[timers_data.length - 1].id;
+    Timer_count = timers_data[timers_data.length - 1].id;
   }
-  loading_state = false;
 });
 
-$: noOfTimers = timers_data.length;
+$: noOfCounters = timers_data.length;
 //#endregion
 
 //#region counter event handle
 function create_counter() {
   timers_data.push({
-    id: timer_count + 1,
-    count: 0,
+    id: Timer_count + 1,
+    runtime: 0,
+    stop_reason: "",
   });
-  timer_count += 1;
+  Timer_count += 1;
   timers_data = timers_data;
 }
 
@@ -59,61 +69,47 @@ function handle_delete(id: number) {
   timers_data = timers_data;
 }
 
-function handle_save() {
-  save_data(timers_data);
-  // anything_changed = false;
+function handle_update(id, data, orig_data) {
+  let replace_with = {
+    id: id,
+    name: data.detail.name,
+    count: data.detail.count,
+  };
+
+  const i = timers_data.findIndex((data) => data.id === id);
+  orig_data[i] = { ...orig_data[i], ...replace_with };
 }
+
 //#endregion
 </script>
 
 <!-- ! FULL WRAPPER -->
 <!-- ? Manager -->
 <TimerTopBar
-  noOfCounters="{noOfTimers}"
   on:create_counter="{() => create_counter()}"
-  on:save_data="{() => handle_save()}"
-  on:reset="{() => (timers_data = [{ id: 1, count: 0 }])}"
+  on:save_data="{() => save_data(timers_data)}"
+  on:reset="{() =>
+    (timers_data = [
+      {
+        id: Timer_count + 1,
+        runtime: 0,
+        stop_reason: '',
+      },
+    ])}"
   anything_changed="{anything_changed}"
 />
 
 <!-- ? COUNTER CARDS -->
 
-<div class="flex flex-col pt-2">
-  {#if loading_state}
-    <div
-      out:fade
-      class="flex fixed w-screen h-80 flex-grow items-center  justify-center"
-    >
-      <SyncLoader color="green" />
+<div class="flex-row p-4 pt-2 inline-flex flex-wrap gap-3 justify-evenly">
+  {#each timers_data as item, i (item.id)}
+    <div animate:flip="{{ duration: 300, easing: cubicOut }}">
+      <TimerCard
+        on:delete="{() => {
+          handle_delete(item.id);
+        }}"
+        on:update="{(data) => handle_update(Current_id, data, timers_data)}"
+      />
     </div>
-  {:else}
-    <div
-      transition:fade
-      on:introend="{() => {
-        anim_long = false;
-      }}"
-      on:outroend="{() => {
-        anim_long = true;
-      }}"
-    >
-      {#each timers_data as item, i (item.id)}
-        <div
-          class="w-full "
-          in:slide="{{ delay: anim_long ? i * 100 : 0 }}"
-          out:slide|local
-        >
-          <TimerCard
-            item="{item}"
-            i="{i}"
-            on:delete="{() => {
-              handle_delete(item.id);
-            }}"
-            on:up="{() => (item.count += 1)}"
-            on:down="{() => (item.count -= 1)}"
-            on:reset_this_counter="{() => (item.count = 0)}"
-          />
-        </div>
-      {/each}
-    </div>
-  {/if}
+  {/each}
 </div>

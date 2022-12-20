@@ -2,6 +2,7 @@
 //#region imports
 import {
   counters_saved,
+  Counter_size,
   Counter_size_editing,
   rename_mode,
 } from "./CounterLocalData";
@@ -15,6 +16,10 @@ import CounterTopBar from "./components/CounterTopBar.svelte";
 import { onMount } from "svelte";
 import FloatingVarsViewer from "../debugging/Floating_vars_viewer.svelte";
 import CounterResize from "./components/Counter_resize.svelte";
+import { flip } from "svelte/animate";
+import { cubicOut } from "svelte/easing";
+
+const flip_duration = {};
 
 function save_data(data: any) {
   counters_saved.set(data);
@@ -113,6 +118,7 @@ function handle_save() {
 
 <div
   class="flex-row p-4 pt-2 inline-flex flex-wrap gap-3 justify-evenly"
+  style="gap: {$Counter_size.gap}px"
   transition:fade
   on:introend="{() => {
     anim_long = false;
@@ -122,7 +128,11 @@ function handle_save() {
   }}"
 >
   {#each counters_data as item, i (item.id)}
-    <div in:slide="{{ delay: anim_long ? i * 100 : 0 }}" out:slide|local>
+    <div
+      in:slide="{{ delay: anim_long ? i * 100 : 0 }}"
+      out:slide|local
+      animate:flip="{{ duration: 300, easing: cubicOut }}"
+    >
       <CounterCard
         item="{item}"
         i="{i}"

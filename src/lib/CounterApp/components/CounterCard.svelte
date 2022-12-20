@@ -76,26 +76,26 @@ function handleEdit(e) {
 
   <!-- Info part -->
   {#if $counter_id_shown}
-    <div class="absolute pointer-events-none p-1 pl-2">
+    <div class="absolute pointer-events-none  p-1 pl-2">
       <P weight="light" space="tight" align="left" size="xs">{i + 1}</P>
     </div>
   {/if}
-  <div class="pointer-events-none h-full " transition:fly|local="{{ x: 10 }}">
+  <div class="pointer-events-none h-full" transition:fly|local="{{ x: 10 }}">
     {#if $smart_text}
       {#key item.count}
-        <span class="centerrr " in:fly|local="{{ y: -10 }}">
+        <span class="centerrr noselect" in:fly|local="{{ y: -10 }}">
           <P size="2xl">
             {item.count}
           </P>
         </span>
       {/key}
-      <div class="absolute bottom-0 w-full">
+      <div class="absolute bottom-0 w-full noselect">
         <P size="xs" align="center" class="text-gray-600 dark:text-gray-300 "
           >{item.name}</P
         >
       </div>
     {:else}
-      <div class="centerrr">
+      <div class="centerrr noselect">
         <P size="lg" align="center"
           >{item.name}: &nbsp
           {#key item.count}

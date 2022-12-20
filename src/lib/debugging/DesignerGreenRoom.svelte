@@ -1,5 +1,5 @@
 <script lang="ts">
-import CounterResize from "../CounterApp/components/Counter_resize.svelte";
+import AboutMe from "../AboutMe/AboutMe.svelte";
 </script>
 
 <!-- for centering elements -->
@@ -7,5 +7,5 @@ import CounterResize from "../CounterApp/components/Counter_resize.svelte";
 
 <!-- Normally -->
 <div>
-  <CounterResize />
+  <AboutMe />
 </div>

@@ -117,6 +117,10 @@ export let noOfCounters: number;
         <Button on:click="{() => ($Counter_size_editing = false)}">
           <Icon icon="{roundFileDownloadDone}" class="text-lg" />
         </Button>
+      {:else if $rename_mode}
+        <Button on:click="{() => ($rename_mode = false)}">
+          <Icon icon="{roundFileDownloadDone}" class="text-lg" />
+        </Button>
       {:else}
         <div class="relative">
           <Button

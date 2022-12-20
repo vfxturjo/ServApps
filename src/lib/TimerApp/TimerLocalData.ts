@@ -5,11 +5,13 @@ import { writable } from "svelte-local-storage-store";
 // ? FULL WEBSITE
 export let Current_app = writable("Current_app", "MultiCounter");
 
-// ? Related with Multi-Counter
-export let Timers_saved = writable("counters_saved", { id: 0, count: 0 });
+// ? Related with Timer
+export let Timers_saved = writable("counters_saved", {
+  id: 0,
+  count: 0,
+  name: "Counter Name",
+});
 export let smart_mode = writable("counter_smart_mode", true);
-export let minus_mode = writable("counter_minus_mode", false);
-export let delete_mode = writable("counter_delete_mode", false);
 
 // ? Others
 export function createCount_stored(id: number) {
